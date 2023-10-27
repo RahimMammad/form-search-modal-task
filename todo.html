@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            padding: 50px 500px;
+        }
+
+        .container {
+            border: 1px solid black;
+            padding: 10px;
+            min-height: 300px;
+        }
+
+        .todoItem {
+            display: flex;
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        .todoItem__text {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Addim 3 yoxdu takmayin</h3>
+    <div>
+        <input type="text" class="todoInp">
+        <button id="btn">Add</button>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <!-- addim 4 elementimi dizayn edirem -->
+        <!-- <div class="todoItem">
+            <div class="todoItem__text">salamlar</div>
+            <button class="todoItem__edit">Edit</button>
+            <button class="todoItem__trash">X</button>
+        </div> -->
+        <!-- addim 7 sablona ehtiyac qalmadi deye men kommente aliram siz sile bilersiz -->
+    </div>
+
+
+
+    <script>
+        const btn = document.getElementById("btn")
+        const todoInp = document.querySelector(".todoInp")
+        const container = document.querySelector(".container")
+        
+        let memoElmenet
+
+        todoInp.focus()
+
+        btn.addEventListener("click", function (e) {
+            if (btn.textContent === "Add") {
+                if (todoInp.value === "") {
+                    alert("bos olmaz")
+                    return
+                }
+
+                const todoItem = createElementWithContentAndClass("div","","todoItem")
+                const todoItem__text = createElementWithContentAndClass("div",todoInp.value,"todoItem__text")
+                const todoItem__edit = createElementWithContentAndClass("button","Edit","todoItem__edit")
+                const todoItem__trash =createElementWithContentAndClass("button","X","todoItem__trash")
+
+                todoItem.append(todoItem__text, todoItem__edit, todoItem__trash)
+                container.appendChild(todoItem)
+
+                todoItem__trash.onclick = () => todoItem.remove()
+
+                todoItem__edit.onclick = () => {
+                    memoElmenet = todoItem__text
+                    todoInp.value = todoItem__text.textContent
+                    todoInp.focus()
+                    btn.textContent = "Edit"
+                }
+            }
+            else {
+                memoElmenet.textContent = todoInp.value
+                btn.textContent = "Add"
+            }
+            todoInp.value = ""
+        })
+
+        // elave
+        // document.body.addEventListener("keypress", function (e) {
+        //     if (e.key === "Enter") {
+        //         btn.click()
+        //     }
+        // })
+
+        //qisa yazilis
+        document.body.onkeypress = (e) => e.key === "Enter" ? btn.click() : null
+
+        function createElementWithContentAndClass(type,content,classnames) {
+            const element = document.createElement(type)
+            element.textContent = content
+            element.classList.add(classnames)
+            return element
+        }
+
+    </script>
+</body>
+
+</html>
